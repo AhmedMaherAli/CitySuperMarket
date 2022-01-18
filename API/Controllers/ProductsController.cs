@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Interfaces;
 
 namespace API.Controllers
 {
@@ -15,18 +16,18 @@ namespace API.Controllers
 
     public class ProductsController : ControllerBase
     {
-        private readonly MarketDbContext _marketDbContext;
+        private readonly IProductRepository _productRepository;
 
-        public ProductsController(MarketDbContext marketDbContext)
+        public ProductsController(IProductRepository productRepository)
         {
-            _marketDbContext = marketDbContext;
+            _productRepository = productRepository;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<Product>>> GetAll()
-        {
-            List<Product>products= await _marketDbContext.Products.ToListAsync();
+        {                                                                                       
+            List<Product>products= await _productRepository.GetProductsAsync(new List<string> { "ProductBrand", "ProductType" });
             return Ok(products);
         }
 
@@ -35,12 +36,28 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Product>> Get(int id)
         {
-            Product product = await _marketDbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+            Product product = await _productRepository.GetProductByIdAsync(id);
             if (product == null)
             {
                 return BadRequest("Invalid id.");
             }
             return Ok(product);
+        }
+
+        [HttpGet("brands")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<ProductBrand>>> GetBrands()
+        {
+            List<ProductBrand> brands = await _productRepository.GetBrandsAsync();
+            return Ok(brands);
+        }
+
+        [HttpGet("types")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<ProductType>>> GetTypes()
+        {
+            List<ProductType> types = await _productRepository.GetTypesAsync();
+            return Ok(types);
         }
     }
 }

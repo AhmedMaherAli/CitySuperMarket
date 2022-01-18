@@ -1,3 +1,4 @@
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,8 +31,9 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CityMarket", Version = "v1" });
             });
+            services.AddScoped<IProductRepository,ProductRepository>();
             services.AddDbContext<MarketDbContext>(options =>
-                options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Infrastructure.Data")));
+                options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Infrastructure")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
