@@ -11,6 +11,7 @@ using Core.Interfaces;
 using API.Configurations;
 using AutoMapper;
 using API.DTOs;
+using API.Errors;
 
 namespace API.Controllers
 {
@@ -40,14 +41,14 @@ namespace API.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Product>> Get(int id)
         {
             var includes = new List<string> { "ProductBrand", "ProductType" };
             Product product = await _unitOfWork.Products.GetByIdAsync(id,includes);
             if (product == null)
             {
-                return BadRequest("Invalid id.");
+                return NotFound(new ApiResponse(404));
             }
             var result = _mapper.Map<ProductToReturnDTO>(product);
             return Ok(result);
