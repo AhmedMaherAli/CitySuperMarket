@@ -1,5 +1,8 @@
+using API.Configurations;
+using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Data.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +35,8 @@ namespace API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CityMarket", Version = "v1" });
             });
             services.AddScoped<IProductRepository,ProductRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddAutoMapper(typeof(MapperInitiallizer));
             services.AddDbContext<MarketDbContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Infrastructure")));
         }
@@ -49,6 +54,7 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 

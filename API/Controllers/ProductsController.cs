@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Interfaces;
+using API.Configurations;
+using AutoMapper;
+using API.DTOs;
 
 namespace API.Controllers
 {
@@ -16,19 +19,23 @@ namespace API.Controllers
 
     public class ProductsController : ControllerBase
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _productRepository = productRepository;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<Product>>> GetAll()
-        {                                                                                       
-            List<Product>products= await _productRepository.GetProductsAsync(new List<string> { "ProductBrand", "ProductType" });
-            return Ok(products);
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDTO>>> GetAll()
+        {
+            var includes = new List<string> { "ProductBrand", "ProductType" };
+            IReadOnlyList<Product> products = await _unitOfWork.Products.GetAllAsync(null,null, includes);
+            var result = _mapper.Map<IList<ProductToReturnDTO>>(products);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -36,27 +43,29 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Product>> Get(int id)
         {
-            Product product = await _productRepository.GetProductByIdAsync(id);
+            var includes = new List<string> { "ProductBrand", "ProductType" };
+            Product product = await _unitOfWork.Products.GetByIdAsync(id,includes);
             if (product == null)
             {
                 return BadRequest("Invalid id.");
             }
-            return Ok(product);
+            var result = _mapper.Map<ProductToReturnDTO>(product);
+            return Ok(result);
         }
 
         [HttpGet("brands")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<ProductBrand>>> GetBrands()
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetBrands()
         {
-            List<ProductBrand> brands = await _productRepository.GetBrandsAsync();
+            IReadOnlyList<ProductBrand> brands = await _unitOfWork.ProductBrands.GetAllAsync();
             return Ok(brands);
         }
 
         [HttpGet("types")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<ProductType>>> GetTypes()
+        public async Task<ActionResult<IReadOnlyList<ProductType>>> GetTypes()
         {
-            List<ProductType> types = await _productRepository.GetTypesAsync();
+            IReadOnlyList<ProductType> types = await _unitOfWork.ProductTypes.GetAllAsync();
             return Ok(types);
         }
     }
