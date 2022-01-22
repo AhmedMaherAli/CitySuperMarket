@@ -1,11 +1,11 @@
 ﻿using Core.Interfaces;
 using Core.Models;
+using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repository
@@ -21,26 +21,38 @@ namespace Infrastructure.Data.Repository
             _db = _marketDbContext.Set<T>();
         }
 
-        public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, List<string> includes = null)
+        public async Task<IReadOnlyList<T>> GetAllAsync(GenericSpecifications<T> genericSpecifications=null)
         {
             IQueryable<T> query = _db;
-            if (expression != null)
+            if (genericSpecifications != null)
             {
-                query=query.Where(expression);
-            }
-            if (includes != null)
-            {
-                foreach (string include in includes)
+                if (genericSpecifications.Criteria != null)
                 {
-                    query=query.Include(include);
+                    query = query.Where(genericSpecifications.Criteria);
+                }
+                if (genericSpecifications.Includes != null)
+                {
+                    foreach (string include in genericSpecifications.Includes)
+                    {
+                        query = query.Include(include);
+                    }
+                }
+                if (genericSpecifications.OrderByExpression != null)
+                {
+                    if (string.IsNullOrEmpty(genericSpecifications.SortingType))
+                    {
+                        query = query.OrderBy(genericSpecifications.OrderByExpression);
+                    }
+                    else
+                    {
+                        query = query.OrderByDescending(genericSpecifications.OrderByExpression);
+                    }
+                }
+                if (genericSpecifications.EnablePagging)
+                {
+                    query = query.Skip(genericSpecifications.Skip).Take(genericSpecifications.Take);
                 }
             }
-            
-            if(orderBy != null)
-            {
-                query = orderBy(query);
-            }
-
             return await query.AsNoTracking().ToListAsync();
         }
 
@@ -58,7 +70,6 @@ namespace Infrastructure.Data.Repository
 
             return await query.AsNoTracking().FirstOrDefaultAsync(expression);
         }
-
         public async Task<T> GetByIdAsync(int id, List<string> includes = null)
         {
             IQueryable<T> query = _db;

@@ -1,17 +1,14 @@
-﻿using Infrastructure.Data;
-using Core.Models;
+﻿using Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Core.Interfaces;
-using API.Configurations;
 using AutoMapper;
 using API.DTOs;
 using API.Errors;
+using Infrastructure.Data.Repository;
+using Core.Specifications;
 
 namespace API.Controllers
 {
@@ -22,6 +19,7 @@ namespace API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private  GenericSpecifications<Product> _genericSpecifications;
 
         public ProductsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -30,17 +28,17 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDTO>>> GetAll()
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDTO>>> GetAll([FromQuery]ProductSpecParameters productParams)
         {
             var includes = new List<string> { "ProductBrand", "ProductType" };
-            IReadOnlyList<Product> products = await _unitOfWork.Products.GetAllAsync(null,null, includes);
+            _genericSpecifications= new GenericSpecifications<Product>(null, productParams.Sort, includes);
+            ProductSpecificationHandler productSpecificationHandler = new ProductSpecificationHandler(productParams, _genericSpecifications);
+            IReadOnlyList<Product> products = await _unitOfWork.Products.GetAllAsync(_genericSpecifications);
             var result = _mapper.Map<IList<ProductToReturnDTO>>(products);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Product>> Get(int id)
         {
@@ -55,7 +53,6 @@ namespace API.Controllers
         }
 
         [HttpGet("brands")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetBrands()
         {
             IReadOnlyList<ProductBrand> brands = await _unitOfWork.ProductBrands.GetAllAsync();

@@ -31,7 +31,14 @@ namespace API
             services.AddControllers();
             services.AddDbContext<MarketDbContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Infrastructure")));
+            services.AddCors(option =>
+            {
 
+                option.AddPolicy("CorsPolicy", policy =>
+                 {
+                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:44346");
+                 });
+            });
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
         }
@@ -52,6 +59,7 @@ namespace API
             app.UseRouting();
             app.UseStaticFiles();
 
+            app.UseCors("CorsPolicy");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

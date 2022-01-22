@@ -9,6 +9,7 @@ namespace Core.Interfaces
 {
     public interface IProductRepository
     {
+        
         public Task<List<Product>> GetProductsAsync(List<string> Includes);
         public Task<Product> GetProductByIdAsync(int id);
         public Task<List<ProductBrand>> GetBrandsAsync();
