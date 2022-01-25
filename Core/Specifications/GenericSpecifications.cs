@@ -11,6 +11,7 @@ namespace Core.Specifications
         private Expression<Func<T, object>> orderByExpression ;
         private List<string> includes ;
         public string SortingType { get; set; }
+        public int QueryCount { get; set; }
         public int Skip { get; set; }
         public int Take { get; set; }
         public bool EnablePagging { get; set; }

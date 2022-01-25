@@ -34,7 +34,8 @@ namespace API.Controllers
             _genericSpecifications= new GenericSpecifications<Product>(null, productParams.Sort, includes);
             ProductSpecificationHandler productSpecificationHandler = new ProductSpecificationHandler(productParams, _genericSpecifications);
             IReadOnlyList<Product> products = await _unitOfWork.Products.GetAllAsync(_genericSpecifications);
-            var result = _mapper.Map<IList<ProductToReturnDTO>>(products);
+            var productsDTO= _mapper.Map<IList<ProductToReturnDTO>>(products);
+            var result = new PaginationDTO(_genericSpecifications.QueryCount, productsDTO);
             return Ok(result);
         }
 

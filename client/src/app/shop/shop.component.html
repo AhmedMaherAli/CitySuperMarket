@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="row">
+
+
+    <section class="col-2">
+
+
+      <h5 class="text-warning ml-3">Sort</h5>
+      <select class="custom-select" (change)="onSortSelected( ($any)($event.target) .value)">
+        <option *ngFor="let sort of sortOptions" [value]="sort.value">{{sort.name}}</option>
+
+      </select>
+
+      <h5 class="text-warning mt-3">Brands</h5>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let item of brands" [class.active]="item.id=== this.params.brandIdSelected"
+          [value]="item.id" (click)="onBrandSelected(item.id)">{{item.name}}</li>
+      </ul>
+
+      <h5 class="text-warning mt-3">Types</h5>
+      <ul class="list-group">
+
+        <li class="list-group-item" *ngFor="let type of types" [class.active]="type.id === this.params.typeIdSelected"
+          [value]="type.id" (click)="onTypeSelected(type.id)">{{type.name}}</li>
+      </ul>
+
+    </section>
+
+
+    <section class="col-10 mt-1">
+      <div class="d-flex justify-content-between justify-content-center pb-4">
+
+        <header class="col-4">
+          <span>Showing <strong> {{this.products.length}}</strong> out of <strong> {{this.totalCount}} </strong>results
+          </span>
+        </header>
+
+        <div class="form-inline d-flex">
+          <input (keyup.Enter)="onSearchClicked()" #search class="form-control me-2" style="width: 500px;" placeholder="Search..."
+            type="text">
+          <button type="button" (click)="onSearchClicked()" class="btn btn-outline-primary ">Search
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+              viewBox="0 0 16 16">
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+          </button>
+          <button type="button" (click)="onReset()" class="btn btn-outline-success ">Reset
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" />
+              <path
+                d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
+            </svg> </button>
+          </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-4 mb-4" *ngFor="let item of products">
+          <app-product-item [product]="item"></app-product-item>
+
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <pagination (pageChanged)="onPageChanged($event)" [itemsPerPage]="this.params.pageSize" [boundaryLinks]="true"
+          [totalItems]="this.totalCount" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+          lastText="&raquo;">
+
+        </pagination>
+      </div>
+
+    </section>
+  </div>
+</div>

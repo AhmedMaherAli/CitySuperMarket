@@ -14,11 +14,13 @@ namespace Infrastructure.Data.Repository
     {
         private readonly MarketDbContext _marketDbContext;
         private readonly DbSet<T> _db;
+        private int countOfLastQuery;
 
         public GenericRepository(MarketDbContext marketDbContext)
         {
             _marketDbContext = marketDbContext;
             _db = _marketDbContext.Set<T>();
+            countOfLastQuery = 0;
         }
 
         public async Task<IReadOnlyList<T>> GetAllAsync(GenericSpecifications<T> genericSpecifications=null)
@@ -48,12 +50,17 @@ namespace Infrastructure.Data.Repository
                         query = query.OrderByDescending(genericSpecifications.OrderByExpression);
                     }
                 }
+                genericSpecifications.QueryCount = await query.AsNoTracking().CountAsync();
                 if (genericSpecifications.EnablePagging)
                 {
                     query = query.Skip(genericSpecifications.Skip).Take(genericSpecifications.Take);
                 }
             }
             return await query.AsNoTracking().ToListAsync();
+        }
+        public int GetCountOfLastQuery()
+        {
+            return countOfLastQuery;
         }
 
         public async Task<T> GetAsync(Expression<Func<T, bool>> expression = null, List<string> includes = null)

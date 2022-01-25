@@ -38,6 +38,12 @@ namespace Infrastructure.Data.Repository
                 case "id":
                     exp = x => x.Id;
                     break;
+                case "brands":
+                    exp = x => x.ProductBrandId;
+                    break;
+                case "types":
+                    exp = x => x.ProductTypeId;
+                    break;
                 default: 
                     exp = x => x.Name;
                     break;

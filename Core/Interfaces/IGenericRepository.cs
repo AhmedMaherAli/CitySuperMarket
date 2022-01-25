@@ -13,5 +13,6 @@ namespace Core.Interfaces
     {
         public Task<T> GetByIdAsync(int id,List<string> includes=null);
         public Task<IReadOnlyList<T>> GetAllAsync(GenericSpecifications<T> genericSpecifications=null);
+        public int GetCountOfLastQuery();
     }
 }
