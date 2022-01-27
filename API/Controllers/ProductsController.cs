@@ -9,6 +9,7 @@ using API.DTOs;
 using API.Errors;
 using Infrastructure.Data.Repository;
 using Core.Specifications;
+using System;
 
 namespace API.Controllers
 {
@@ -39,7 +40,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}",Name ="GetProduct")]
         [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Product>> Get(int id)
         {
@@ -66,6 +67,25 @@ namespace API.Controllers
         {
             IReadOnlyList<ProductType> types = await _unitOfWork.ProductTypes.GetAllAsync();
             return Ok(types);
+        }
+        [HttpPost("add/product")]
+        public async Task<IActionResult> CreateProduct([FromBody] ProductToAddDTO productToAddDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var productToBeInserted = _mapper.Map<Product>(productToAddDTO);
+                await _unitOfWork.Products.Insert(productToBeInserted);
+                await _unitOfWork.Save();
+                return CreatedAtRoute("GetProduct", new { id = productToBeInserted.Id }, productToBeInserted);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error, please try again later.");
+            }
         }
     }
 }

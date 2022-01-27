@@ -91,5 +91,19 @@ namespace Infrastructure.Data.Repository
 
             return await query.AsNoTracking().FirstOrDefaultAsync(p=>p.Id==id);
         }
+        public async Task Insert(T entity)
+        {
+            await _db.AddAsync(entity);
+
+        }
+        public async Task InsertRange(IEnumerable<T> entities)
+        {
+            await _db.AddRangeAsync(entities);
+        }
+        public void Update(T entity)
+        {
+            _db.Attach(entity);
+            _marketDbContext.Entry(entity).State = EntityState.Modified;
+        }
     }
 }

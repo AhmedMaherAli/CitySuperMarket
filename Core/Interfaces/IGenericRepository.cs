@@ -1,10 +1,6 @@
 ﻿using Core.Models;
 using Core.Specifications;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.Interfaces
@@ -14,5 +10,8 @@ namespace Core.Interfaces
         public Task<T> GetByIdAsync(int id,List<string> includes=null);
         public Task<IReadOnlyList<T>> GetAllAsync(GenericSpecifications<T> genericSpecifications=null);
         public int GetCountOfLastQuery();
+        public Task Insert(T entity);
+        public  Task InsertRange(IEnumerable<T> entities);
+        public void Update(T entity);
     }
 }

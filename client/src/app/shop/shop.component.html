@@ -38,21 +38,10 @@
         <div class="form-inline d-flex">
           <input (keyup.Enter)="onSearchClicked()" #search class="form-control me-2" style="width: 500px;" placeholder="Search..."
             type="text">
-          <button type="button" (click)="onSearchClicked()" class="btn btn-outline-primary ">Search
-
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-              viewBox="0 0 16 16">
-              <path
-                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-            </svg>
+          <button type="button" (click)="onSearchClicked()" class="btn btn-outline-primary me-2">Search <i class="fa fa-search"></i>
           </button>
-          <button type="button" (click)="onReset()" class="btn btn-outline-success ">Reset
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-              class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z" />
-              <path
-                d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
-            </svg> </button>
+          <button type="button" (click)="onReset()" class="btn btn-outline-success ">Reset <i class="fa fa-undo"></i>
+          </button>
           </div>
       </div>
 

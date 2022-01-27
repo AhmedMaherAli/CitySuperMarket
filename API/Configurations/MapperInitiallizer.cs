@@ -19,6 +19,8 @@ namespace API.Configurations
                 .ForMember(d => d.PictureUrl, o => o.ResolveUsing<ProductUrlResolver>())
                 //.ForMember(m=> m.PictureUrl, o => o.MapFrom<ProductUrlResolver>())
                 .ReverseMap();
+            CreateMap<Product, ProductToAddDTO>()
+                .ReverseMap();
         }
     }
 }

@@ -5,6 +5,7 @@ import { ShopParams } from '../shared/models/shopParams';
 import { Itype } from '../shared/models/type';
 import { ShopService } from './shop.service';
 
+
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -12,6 +13,8 @@ import { ShopService } from './shop.service';
 })
 export class ShopComponent implements OnInit {
   @ViewChild('search',{static:true}) searchElement :ElementRef;
+  
+  
   products: IProduct[];
   brands:Ibrand[];
   types:Itype[];

@@ -1,14 +1,16 @@
-<header style="background-color: white" class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-2 border-bottom fixed-top">
+<header style="background-color:rgb(245, 241, 241);" class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-2 border-bottom fixed-top">
  
 
-  <img src="/assets/images/logo.png" class="img-fluid" style="max-height: 100px; margin-left: 50px; margin-right:15px" alt="logo" />
+  <img  src="/assets/images/logo.png" routerLink="/" class="img-fluid" style="max-height: 110px; margin-left: 50px; margin-right:15px" alt="logo" />
   
-  
+  <h3 style="color: rgb(3, 9, 59); font-family:'cursive';">City Supermarket</h3>
 
-  <ul class="nav nav-pills mt-2 mt-md-0 ms-md-auto text-uppercase me-lg-5" style="font-size: medium">
-    <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
-    <li class="nav-item"><a href="#" class="nav-link">Shop</a></li>
-    <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+
+
+  <ul class="nav nav-pills mt-2 mt-md-0 ms-md-auto text-uppercase me-lg-5" style="font-size: larger">
+    <li class="nav-item"><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link">Home</a></li>
+    <li class="nav-item"><a routerLink="shop" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link">Shop</a></li>
+    <li class="nav-item"><a routerLink="#" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link">About</a></li>
   </ul>
 
   <div class="d-flex align-items-center me-4">

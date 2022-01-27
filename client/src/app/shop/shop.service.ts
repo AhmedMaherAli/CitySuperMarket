@@ -47,6 +47,9 @@ export class ShopService {
     return this.http.get<Ibrand[]>(queryUrl);
   };
   
+  getProduct(id:number):Observable<IProduct>{
+    return this.http.get<IProduct>(this.baseUrl+'products/'+id.toString());
+  }
 }
 
 
