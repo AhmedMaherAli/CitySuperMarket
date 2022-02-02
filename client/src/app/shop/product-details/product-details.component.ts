@@ -10,14 +10,13 @@ import { ShopService } from '../shop.service';
 })
 export class ProductDetailsComponent implements OnInit {
   product:IProduct;
-  productId:number;
   @ViewChild('productQuantity',{static:false}) quantityElement :ElementRef;
   
   constructor(private shopService:ShopService, private activateRoute:ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.activateRoute.url.forEach(param=>this.productId=+param[1].path)
-    this.loadProduct(this.productId);
+    
+    this.loadProduct(this.activateRoute.snapshot.params['id']);
   }
   loadProduct(id:number){
     this.shopService.getProduct(id).subscribe(product=>this.product=product,error=>console.log(error));

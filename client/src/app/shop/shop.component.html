@@ -4,11 +4,9 @@
 
     <section class="col-2">
 
-
       <h5 class="text-warning ml-3">Sort</h5>
       <select class="custom-select" (change)="onSortSelected( ($any)($event.target) .value)">
         <option *ngFor="let sort of sortOptions" [value]="sort.value">{{sort.name}}</option>
-
       </select>
 
       <h5 class="text-warning mt-3">Brands</h5>
@@ -23,7 +21,6 @@
         <li class="list-group-item" *ngFor="let type of types" [class.active]="type.id === this.params.typeIdSelected"
           [value]="type.id" (click)="onTypeSelected(type.id)">{{type.name}}</li>
       </ul>
-
     </section>
 
 
@@ -36,13 +33,14 @@
         </header>
 
         <div class="form-inline d-flex">
-          <input (keyup.Enter)="onSearchClicked()" #search class="form-control me-2" style="width: 500px;" placeholder="Search..."
-            type="text">
-          <button type="button" (click)="onSearchClicked()" class="btn btn-outline-primary me-2">Search <i class="fa fa-search"></i>
+          <input (keyup.Enter)="onSearchClicked()" #search class="form-control me-2" style="width: 500px;"
+            placeholder="Search..." type="text">
+          <button type="button" (click)="onSearchClicked()" class="btn btn-outline-primary me-2">Search <i
+              class="fa fa-search"></i>
           </button>
           <button type="button" (click)="onReset()" class="btn btn-outline-success ">Reset <i class="fa fa-undo"></i>
           </button>
-          </div>
+        </div>
       </div>
 
       <div class="row ">
