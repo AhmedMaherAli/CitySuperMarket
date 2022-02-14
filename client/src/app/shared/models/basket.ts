@@ -14,6 +14,11 @@ export interface IBasket {
     id: string;
     items: IBasketItem[];
 }
+export interface IBasketTotal{
+    shippingCost:number;
+    subtotal:number;
+    total:number;
+}
 
 export class Basket implements IBasket{
     id= uuidv4();

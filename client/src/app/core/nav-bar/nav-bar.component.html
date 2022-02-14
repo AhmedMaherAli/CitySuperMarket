@@ -2,10 +2,20 @@
  
 
   <img  src="/assets/images/logo.png" routerLink="/" class="img-fluid" style="max-height: 110px; margin-left: 50px; margin-right:15px" alt="logo" />
+  <a class="nav-link" routerLink="/"><h3 style="color: rgb(3, 9, 59); font-family:'cursive'; font-weight: bold; font-size: 2em; margin-right: 150px;">City Supermarket</h3>
+  </a>
   
-  <h3 style="color: rgb(3, 9, 59); font-family:'cursive';">City Supermarket</h3>
+  <carousel  >
+    <slide>
+        <img src="assets/images/food.jpg" alt="first slide" style="display:block; max-height: 150px; width: 700px;">
+    </slide>
+    
+    <slide>
+        <img src="assets/images/home.png" alt="third slide" style="display:block;  max-height: 150px; width: 700px;">
+    </slide>
 
-
+    
+</carousel>
 
   <ul class="nav nav-pills mt-2 mt-md-0 ms-md-auto text-uppercase me-lg-5" style="font-size: larger">
     <li class="nav-item"><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link">Home</a></li>

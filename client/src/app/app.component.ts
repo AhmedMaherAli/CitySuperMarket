@@ -1,8 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { BasketService } from './basket/basket.service';
-import { IBasket } from './shared/models/basket';
 
 @Component({
   selector: 'app-root',
@@ -19,12 +17,8 @@ export class AppComponent implements OnInit {
 
     if(basket_id)
       { 
-        this.basketService.getBasket2(basket_id).subscribe(response=>{
-
-        });
-
-         this.basketService.getBasket(basket_id).subscribe((response)=>{
-          console.log('Basket Initialized.',response);
+         this.basketService.getBasket(basket_id).subscribe(()=>{
+          console.log('Basket Initialized.');
         },error => console.log(error))
       }
   }

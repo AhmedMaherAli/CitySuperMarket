@@ -9,7 +9,7 @@ import { IBasket } from '../../shared/models/basket';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent implements OnInit {
-  basket$:Observable<IBasket> 
+  basket$:Observable<IBasket> ;
   constructor(private basketService:BasketService) { }
 
   ngOnInit(): void {

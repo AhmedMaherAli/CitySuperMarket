@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { RouterLink, RouterModule } from '@angular/router';
 import { SectionHeaderComponent } from './section-header/section-header.component';
-
+import {CarouselModule} from 'ngx-bootstrap/carousel';
 
 
 
@@ -11,7 +11,8 @@ import { SectionHeaderComponent } from './section-header/section-header.componen
   declarations: [NavBarComponent, SectionHeaderComponent],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    CarouselModule.forRoot()
   ],
   exports:[SectionHeaderComponent,NavBarComponent]
 })

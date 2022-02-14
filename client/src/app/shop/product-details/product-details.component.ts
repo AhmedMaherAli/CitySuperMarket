@@ -1,5 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BasketService } from 'src/app/basket/basket.service';
+import { IBasketItem } from 'src/app/shared/models/basket';
 import { IProduct } from 'src/app/shared/models/product';
 import { ShopService } from '../shop.service';
 
@@ -10,9 +12,10 @@ import { ShopService } from '../shop.service';
 })
 export class ProductDetailsComponent implements OnInit {
   product:IProduct;
+  quantity=0;
   @ViewChild('productQuantity',{static:false}) quantityElement :ElementRef;
   
-  constructor(private shopService:ShopService, private activateRoute:ActivatedRoute) {}
+  constructor(private shopService:ShopService, private activateRoute:ActivatedRoute, private basketService:BasketService) {}
 
   ngOnInit(): void {
     
@@ -22,11 +25,16 @@ export class ProductDetailsComponent implements OnInit {
     this.shopService.getProduct(id).subscribe(product=>this.product=product,error=>console.log(error));
   }
   increaseQuantity(){
-    this.quantityElement.nativeElement.innerHTML= +this.quantityElement.nativeElement.innerHTML+1;
+    this.quantity++;
   }
   decreaseQuantity(){
-    if( +this.quantityElement.nativeElement.innerHTML>0)
-      this.quantityElement.nativeElement.innerHTML= +this.quantityElement.nativeElement.innerHTML-1;
+    if( this.quantity>0)
+      this.quantity--;
+  }
+  addItemToBasket(){
+    if(this.quantity===0)
+      this.quantity++;
+    this.basketService.addItemToBasket(this.product,this.quantity);
   }
 
 }
