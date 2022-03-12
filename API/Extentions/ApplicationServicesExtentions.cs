@@ -1,6 +1,7 @@
 ﻿using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.Repository;
+using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Extentions
@@ -9,7 +10,7 @@ namespace API.Extentions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-
+            services.AddScoped<ITokenService, TokenServices>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
