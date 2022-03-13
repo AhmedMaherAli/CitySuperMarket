@@ -56,8 +56,10 @@ namespace API.Controllers
         }
         [Authorize]
         [HttpPut("address")]
-        public async Task<ActionResult<AddressDTO>> UpdateAddress([FromBody] AddressDTO addressDTO)
+        public async Task<ActionResult<AddressDTO>> UpdateAddress([FromBody]AddressDTO addressDTO)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             var email = User.FindFirstValue(ClaimTypes.Email);
             var user = await _userManage.FindUserByEmailWithAddress(email);
             user.Address = _mapper.Map<AddressDTO, Address>(addressDTO);
@@ -65,42 +67,43 @@ namespace API.Controllers
             return (result.Succeeded) ? Ok(addressDTO) : BadRequest(new ApiResponse(400, "Problem updatig the address."));
         }
         [HttpPost("Login")]
-        public async Task<ActionResult<UserDTO> > Login(LoginDTO loginDTO)
+        public async Task<ActionResult<UserDTO> > Login([FromBody]LoginDTO loginDTO)
         {
+            
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
             var user = await _userManage.FindByEmailAsync(loginDTO.Email);
             if (user == null) return Unauthorized(new ApiResponse(401));
             var result = await _signInManager.CheckPasswordSignInAsync(user,loginDTO.Password,false);
+            
             if(!result.Succeeded) return Unauthorized(new ApiResponse(401));
-            return new UserDTO
-            {
-                Email = user.Email,
-                Token = _tokenService.GetToken(user),
-                DisplayName = user.DisplayName
-            };
+            
+            UserDTO userToReturn = _mapper.Map<AppUser, UserDTO>(user);
+            userToReturn.Token = _tokenService.GetToken(user);
+            return userToReturn;
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<UserDTO> > Register(RegisterDTO registerDTO)
+        public async Task<ActionResult<UserDTO> > Register([FromBody] RegisterDTO registerDTO)
         {
-            var recievedUser = new AppUser
-            {
-                DisplayName = registerDTO.DisplayName,
-                Email = registerDTO.Email,
-                UserName = registerDTO.Email,
-            };
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            var recievedUser = _mapper.Map<RegisterDTO,AppUser>(registerDTO);
             var result = await _userManage.CreateAsync(recievedUser,registerDTO.Password);
+            
             StringBuilder message=new StringBuilder("");
             foreach (var error in result.Errors)
             {
                 message.Append(error.Description);
             }
+            
             if(!result.Succeeded) return BadRequest(new ApiResponse(400, message.ToString()));
-            return new UserDTO
-            {
-                Email = recievedUser.Email,
-                Token = _tokenService.GetToken(recievedUser),
-                DisplayName = recievedUser.DisplayName
-            };
+            
+            UserDTO userToReturn = _mapper.Map<AppUser, UserDTO>(recievedUser);
+            userToReturn.Token = _tokenService.GetToken(recievedUser);
+            return userToReturn;
         }
     }
 }

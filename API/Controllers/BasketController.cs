@@ -1,4 +1,6 @@
-﻿using API.Errors;
+﻿using API.DTOs;
+using API.Errors;
+using AutoMapper;
 using Core.Interfaces;
 using Core.Models;
 using Microsoft.AspNetCore.Http;
@@ -12,10 +14,12 @@ namespace API.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _basketRepository;
+        private readonly IMapper _mapper;
 
-        public BasketController(IBasketRepository basketRepository)
+        public BasketController(IBasketRepository basketRepository,IMapper mapper)
         {
             _basketRepository = basketRepository;
+            _mapper = mapper;
         }
         [HttpGet]
         public async Task<IActionResult> GetBasketById(string Id)
@@ -25,8 +29,11 @@ namespace API.Controllers
             return Ok( basket ?? new CustomerBasket(Id) );
         }
         [HttpPost]
-        public async Task<IActionResult> UpdateBasket(CustomerBasket customerBasket)
+        public async Task<IActionResult> UpdateBasket([FromBody]CustomerBasketDTO customerBasketDTO)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var customerBasket = _mapper.Map<CustomerBasketDTO, CustomerBasket>(customerBasketDTO);
             var updatedBasket = await _basketRepository.UpsertBasketAsync(customerBasket);
             return Ok(updatedBasket);
         }

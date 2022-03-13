@@ -22,6 +22,10 @@ namespace API.Configurations
                 .ReverseMap();
             CreateMap<Product, ProductToAddDTO>().ReverseMap();
             CreateMap<Address,AddressDTO>().ReverseMap();
+            CreateMap<AppUser, UserDTO>().ReverseMap();
+            CreateMap<AppUser, RegisterDTO>().ReverseMap().ForMember(m => m.UserName, o => o.MapFrom(s => s.Email));
+            CreateMap<CustomerBasketDTO, CustomerBasket>();
+            CreateMap<BasketItemDTO, BasketItem>();
         }
     }
 }
