@@ -1,5 +1,7 @@
 ﻿using API.DTOs;
 using API.Errors;
+using API.Extentions;
+using AutoMapper;
 using Core.Interfaces;
 using Core.Models.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,20 +22,48 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManage;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
-        public AccountController(UserManager<AppUser> userManage, SignInManager<AppUser> signInManager, ITokenService tokenService )
+        public AccountController(UserManager<AppUser> userManage, SignInManager<AppUser> signInManager, ITokenService tokenService, IMapper mapper)
         {
             _userManage = userManage;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
         [Authorize]
-        [HttpGet("Secret")]
-        public ActionResult Test()
+        [HttpGet]
+        public async Task<ActionResult<UserDTO> > GetCurrentUser()
         {
-            return Ok("Secet Message");
-        }
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManage.FindByEmailAsync(email);
+            return new UserDTO
+            {
+                Email = user.Email,
+                Token = _tokenService.GetToken(user),
+                DisplayName = user.DisplayName
+            };
 
+        }
+        //U have to be authorize to be able to get the mail from the claims.
+        [Authorize]
+        [HttpGet("address")]
+        public async Task<ActionResult<AddressDTO>> GetAddress()
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManage.FindUserByEmailWithAddress(email);
+            return _mapper.Map<Address,AddressDTO>( user.Address);
+        }
+        [Authorize]
+        [HttpPut("address")]
+        public async Task<ActionResult<AddressDTO>> UpdateAddress([FromBody] AddressDTO addressDTO)
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManage.FindUserByEmailWithAddress(email);
+            user.Address = _mapper.Map<AddressDTO, Address>(addressDTO);
+            var result = await _userManage.UpdateAsync(user);
+            return (result.Succeeded) ? Ok(addressDTO) : BadRequest(new ApiResponse(400, "Problem updatig the address."));
+        }
         [HttpPost("Login")]
         public async Task<ActionResult<UserDTO> > Login(LoginDTO loginDTO)
         {
