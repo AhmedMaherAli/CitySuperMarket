@@ -22,6 +22,7 @@ namespace API.Configurations
                 .ReverseMap();
             CreateMap<Product, ProductToAddDTO>().ReverseMap();
             CreateMap<Address,AddressDTO>().ReverseMap();
+            CreateMap<AddressDTO, Core.Models.OrderAggregate.Address>();
             CreateMap<AppUser, UserDTO>().ReverseMap();
             CreateMap<AppUser, RegisterDTO>().ReverseMap().ForMember(m => m.UserName, o => o.MapFrom(s => s.Email));
             CreateMap<CustomerBasketDTO, CustomerBasket>();

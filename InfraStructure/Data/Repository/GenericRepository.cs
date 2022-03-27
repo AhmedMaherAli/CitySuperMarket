@@ -105,5 +105,10 @@ namespace Infrastructure.Data.Repository
             _db.Attach(entity);
             _marketDbContext.Entry(entity).State = EntityState.Modified;
         }
+
+        public void Delete(T entity)
+        {
+            _db.Remove(entity);
+        }
     }
 }

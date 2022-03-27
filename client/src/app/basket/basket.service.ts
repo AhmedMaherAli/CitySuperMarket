@@ -45,7 +45,6 @@ export class BasketService {
     const basket = this.getCurrentBasketValue().id==null ? this.createBasket(): this.getCurrentBasketValue() ;
     basket.items=this.addOrUpdateBasketItem(basket.items,itemToAdd,quantity);
     this.setBasket(basket);
-    console.log(basket);
   }
   private calculateTotalCost(){
     const basket=this.getCurrentBasketValue();

@@ -21,7 +21,7 @@ namespace Infrastructure.Data.Repository
             productParams.Sort = _genericSpecifications.ValidateSortType(productParams.Sort);
 
             _genericSpecifications.OrderByExpression = GetSortingExpression();
-            _genericSpecifications.ApplyPagging(productParams.PageIndex *( productParams.PageIndex -1 ), productParams.PageSize);
+            _genericSpecifications.ApplyPagging(productParams.PageSize *( productParams.PageIndex -1 ), productParams.PageSize);
         }
         
         public Expression<Func<Product, object>> GetSortingExpression()

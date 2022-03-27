@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Ibrand } from '../shared/models/brand';
 import { IPagination } from '../shared/models/pagination';
 import { IProduct } from '../shared/models/product';
@@ -11,7 +12,7 @@ import { Itype } from '../shared/models/type';
   providedIn: 'root'
 })
 export class ShopService {
-  baseUrl='https://localhost:44346/api/'
+  baseUrl=environment.apiUrl;
   constructor(private http:HttpClient) { }
 
   getProducts(params:ShopParams):Observable<IPagination>{

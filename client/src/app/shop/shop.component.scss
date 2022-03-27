@@ -1,0 +1,27 @@
+.row {
+    margin: 0;
+    padding: 0;
+    width: 163vh;
+ }
+
+ .list-group-item {
+    cursor: pointer;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1em;
+
+    &:focus {
+        outline: none;
+    }
+
+    &.active {
+        border-radius: 10px;
+        background-color: rgba(94, 4, 4, 0.705);
+    }
+
+    &:not(.active):hover {
+        color: #fff;
+        background-color: rgba(233, 86, 32, 0.705);
+        border-radius: 10px;
+    }
+}

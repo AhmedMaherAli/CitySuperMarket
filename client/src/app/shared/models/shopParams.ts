@@ -5,6 +5,6 @@ export class ShopParams{
   sortSelected='name';
   search:string;
   pageIndex=1;
-  pageSize=9;
+  pageSize=12;
 
 }
