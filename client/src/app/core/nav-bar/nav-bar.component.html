@@ -2,25 +2,21 @@
   class=" d-flex flex-wrap align-items-center  justify-content-md-between py-3 border-bottom fixed-top">
 
   <img src="/assets/images/logo.png" routerLink="/" class=" col-3 img-fluid"
-    style="max-height: 110px;  margin-right: 300px; max-width: 210px; margin-left: 50px;" alt="logo" />
+    style="max-height: 110px;  margin-right: 100px; max-width: 210px; margin-left: 50px;" alt="logo" />
 
   <carousel class="d-flex align-items-center justify-content-center">
     <slide>
-      <img src="assets/images/food.jpg" alt="first slide" style="display:block; width: 1000px; height: 160px;">
-    </slide>
-    <slide>
-      <img src="assets/images/bodycare.png" alt="second slide"
-        style="display:block;  width: 1000px; height: 160px;">
+      <img src="assets/images/food.jpg" alt="first slide" style="display:block;width: 900px; height: 160px;">
     </slide>
 
     <slide>
-      <img src="assets/images/home.png" alt="third slide" style="display:block;width: 1000px; height: 160px;">
+      <img src="assets/images/home.png" alt="third slide" style="display:block;width: 900px; height: 160px;">
     </slide>
   </carousel>
 
 
 
-  <nav class="mt-2 mt-md-0 ms-md-auto text-uppercase me-lg-5" style="font-size: larger;">
+  <nav class="mt-2 mt-md-0  text-uppercase me-lg-5" style="font-size: larger;">
     <a class="p-2" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
     <a class="p-2" routerLink="/shop" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Shop</a>
     <a class="p-2" routerLink="/locations" routerLinkActive="active"

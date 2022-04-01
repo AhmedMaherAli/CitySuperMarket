@@ -16,7 +16,7 @@ namespace Core.Models.OrderAggregate
         }
 
         public ProductItemOrdered ItemOrdered { get; set; }
-        public Decimal Price { get; set; }
+        public decimal Price { get; set; }
         public int Quantity { get; set; }
 
 

@@ -27,37 +27,37 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Order> >CreateOrder([FromBody]OrderDTO orderDTO )
+        public async Task<ActionResult<OrderToReturnDTO> >CreateOrder([FromBody]OrderDTO orderDTO )
         {
             if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return BadRequest(new ApiResponse(400, ModelState.Values.ToString()));
 
             var email = User.FindFirstValue(ClaimTypes.Email);
             var shippingAddress = _mapper.Map<AddressDTO, Address>(orderDTO.ShipToAddress);
             var order = await _orderService.CreateOrderAsync(email, orderDTO.DeliveryMethod, orderDTO.basketId, shippingAddress);
             if (order == null)
                 return BadRequest(new ApiResponse(400, "Problem creating order."));
-            return Ok(order);
+            return Ok( _mapper.Map<Order,OrderToReturnDTO>(order) );
         }
 
         [HttpGet("{orderId}")]
-        public async Task<ActionResult<Order>> GetOrder(int orderId )
+        public async Task<ActionResult<OrderToReturnDTO>> GetOrder(int orderId )
         {
 
             var buyerMail = User.FindFirstValue(ClaimTypes.Email);
             Order order =await _orderService.GetOrderByIdAsync(orderId, buyerMail);
             if (order == null) return BadRequest(new ApiResponse(404, "Order not found."));
-            return Ok(order);
+            return Ok(_mapper.Map<Order, OrderToReturnDTO>(order));
 
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Order>>> GetUserOrders()
+        public async Task<ActionResult<IReadOnlyList<OrderToReturnDTO>>> GetUserOrders()
         {
 
             var buyerMail = User.FindFirstValue(ClaimTypes.Email);
             var orders = await _orderService.GetUserOrdersAsync(buyerMail);
-            return Ok(orders);
+            return Ok(_mapper.Map<IReadOnlyList<Order>,IReadOnlyList< OrderToReturnDTO>>(orders));
 
         }
 

@@ -31,11 +31,12 @@ namespace Infrastructure.Services
                 ProductItemOrdered productItemOrdered=new ProductItemOrdered(product.Id, product.Name, product.PictureUrl );
                 orderItems.Add(new OrderItem( productItemOrdered,Convert.ToDecimal(product.Price), item.Quantity) );
             }
+            
             decimal subtotal = orderItems.Sum(item => item.Price*item.Quantity);
-
-            Order order = new Order(orderItems, buyerEmail, shippingAddress, deliveryMethodId, subtotal);
+            DeliveryMethod deliveryMethod = await _unitOfWork.DeliveryMethod.GetByIdAsync(deliveryMethodId);
+            Order order = new Order(orderItems, buyerEmail, shippingAddress,deliveryMethod, deliveryMethodId, subtotal);
+            //order.DeliveryMethod = null;
             await _unitOfWork.Orders.Insert(order);
-
             var result = await _unitOfWork.Save();
             if (result <= 0) return null;
 

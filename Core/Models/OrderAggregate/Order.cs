@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Models.OrderAggregate
 {
@@ -9,10 +10,11 @@ namespace Core.Models.OrderAggregate
         {
         }
 
-        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, Address shipToAddress, int deliveryMethodId,  decimal subtotal)
+        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, Address shipToAddress,DeliveryMethod deliveryMethod ,int deliveryMethodId,  decimal subtotal)
         {
             BuyerEmail = buyerEmail;
             ShipToAddress = shipToAddress;
+            DeliveryMethod = deliveryMethod;
             DeliveryMethodId = deliveryMethodId;
             OrderItems = orderItems;
             Subtotal = subtotal;
@@ -22,6 +24,7 @@ namespace Core.Models.OrderAggregate
         public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.Now;
         public Address ShipToAddress { get; set; }
         public int DeliveryMethodId { get; set; }
+        [NotMapped]
         public DeliveryMethod DeliveryMethod { get; set; }
         public IReadOnlyList<OrderItem> OrderItems { get; set; }
         public decimal Subtotal { get; set; }

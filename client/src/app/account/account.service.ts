@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { IAddress } from '../shared/models/address';
 import { IUser } from '../shared/models/user';
 
 
@@ -57,6 +58,13 @@ export class AccountService {
       localStorage.removeItem('token');
       this.currentUserSource.next(null);
       this.router.navigateByUrl('/');
+    }
+
+    getUserAddress(){
+       return this.http.get<IAddress>(this.baseUrl+'account/address');
+    }
+    updateAddress(address:IAddress){
+      return this.http.put<IAddress>(this.baseUrl+'account/address',address);
     }
 
 }

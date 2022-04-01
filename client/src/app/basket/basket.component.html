@@ -6,91 +6,22 @@
     <div *ngIf="(basket$|async) as basket">
 
         <div class="pb-5">
-            <div class="container " style="margin-left: 25%;">
+            <div class="container " style="margin-left: 18%;">
 
                 <div class="row" style="margin-left: 10%;">
                     <div class="col-12 py-5 mb-1">
-                        <div class="table-responsive">
-                            <div class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="bg-light border-0" scope="col">
-                                            <div class="p-2 px-3 text-uppercase">Product</div>
-                                        </th>
-                                        <th class="bg-light border-0" scope="col">
-                                            <div class="p-2 px-3 text-uppercase">Price</div>
-                                        </th>
-                                        <th class="bg-light border-0" scope="col">
-                                            <div class="p-2 px-3 text-uppercase">Quantity</div>
-                                        </th>
-                                        <th class="bg-light border-0" scope="col">
-                                            <div class="p-2 px-3 text-uppercase">Total</div>
-                                        </th>
-                                        <th class="bg-light border-0" scope="col">
-                                            <div class="p-2 px-3 text-uppercase">Remove</div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let item of basket.items">
-                                        <th scope="row">
-                                            <div class="container row p-2">
-                                                <img src="{{item.pictureUrl}}" class="col-2 img-fluid"
-                                                    style="max-height: 100px;" alt="{{item.name}}" />
-                                                <div class="col-9 mt-4  align-middle">
-                                                    <h5 class="mb-0 d-flex align-items-center">
-                                                        <a routerLink="/shop/{{item.id}}"
-                                                            class="text-info">{{item.name}}</a>
-                                                    </h5>
-                                                    <span
-                                                        class="text-muted font-weight-normal font-italic d-block">Type:
-                                                        {{item.type}}</span>
-                                                </div>
-                                            </div>
-                                        </th>
-
-                                        <td class="align-middle text-center ">
-                                            <strong>
-                                                {{item.price}} EGP
-                                            </strong>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <div class=" btn-group mt-auto ">
-                                                <i (click)="decreaseQuantity(item)"
-                                                    class="fa fa-minus-circle text-warning"
-                                                    style=" cursor: pointer; font-size: 2em;"></i>
-                                                <span #productQuantity
-                                                    style="font-weight: bold; margin-left: 10px; font-size: 1.5em;">
-                                                    {{item.quantity}} </span>
-                                                <i (click)="increaseQuantity(item)"
-                                                    class="fa fa-plus-circle text-warning"
-                                                    style="margin-left: 10px; cursor: pointer; font-size: 2em;"></i>
-                                                <a></a>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <strong style=" font-size: 1.1em;">{{item.price * item.quantity}} EGP
-                                            </strong>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <a class="text-danger">
-                                                <i (click)="removeBasketItem(item)" class="fa fa-trash"
-                                                    style="font-size: 2em;"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </div>
-                        </div>
+                        <app-basket-summary (increment)="increaseQuantity($event)"
+                                            (decrement)="decreaseQuantity($event)"
+                                            (remove)="removeBasketItem($event)"></app-basket-summary>
                     </div>
 
                 </div>
                 
                 <div class="row justify-content-center">
-                    <div class="col-6">
+                    <div class="col-8" style="margin-left: 15%;">
                         <app-order-totals></app-order-totals>
                         <div class="justify-content-center"></div>
-                        <a style="width: 100%;" routerLink="/checkout" class="btn btn-outline-primary py-2 btn-block">Proceed to checkout</a>
+                        <a style="width: 100%;" routerLink="/checkout" class="btn btn-outline-success py-2 btn-block"> Proceed to checkout</a>
                     </div>
                 </div>
 

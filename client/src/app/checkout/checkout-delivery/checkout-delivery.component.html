@@ -1,0 +1,23 @@
+<div class="container mt-3" [formGroup]="checkoutForm">
+    <div class="row" formGroupName="deliveryForm">
+        <p style="margin-left: 15px; margin-top: 20px; font-size: 1.1em;">Choose your delivery method.</p>   
+        <div class="col-6 form-group mt-1" *ngFor="let method of deliveryMethods">
+
+            <input (click)="onSelect(method.price)" style="margin-left: 20px;" type="radio" id={{method.id}} value={{method.id}} formControlName="deliveryMethod" class="custom-control-input"/>
+            <label for={{method.id}} class="custom-control-label">
+                <strong>{{method.shortName}} - {{method.price}}EGP </strong>
+                <br>
+                <span style="margin-left: 4px; font-size: 1.1em;" class="label-description">{{method.description}}</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5 mt-5">
+    <button class="btn btn-outline-success" cdkStepperPrevious>
+        <i class="fa fa-angle-left"></i> Bask to address
+    </button>
+    <button class="btn btn-success" cdkStepperNext >
+        Go to review <i class="fa fa-angle-right"></i> 
+    </button>
+</div>
