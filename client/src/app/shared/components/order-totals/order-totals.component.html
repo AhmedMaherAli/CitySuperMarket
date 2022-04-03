@@ -7,18 +7,18 @@
     <p class="font-italic mb-4">
         <i>Shipping costs will be added depending on choices made during checkout.</i>
     </p>
-    <ul class="list-unstyled mb-4" *ngIf="(basketTotal$|async) as basketTotal">
+    <ul class="list-unstyled mb-4">
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Order subtotal</strong>
-            <strong>{{basketTotal.subtotal}} EGP</strong>
+            <strong>{{subtotal}} EGP</strong>
         </li>
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Shipping and handling Costs </strong>
-            <strong>{{basketTotal.shippingCost}} EGP</strong>
+            <strong>{{shippingCost}} EGP</strong>
         </li>
         <li class="d-flex justify-content-between py-3 border-bottom">
             <strong class="text-muted">Total</strong>
-            <strong>{{basketTotal.total}} EGP</strong>
+            <strong>{{total}} EGP</strong>
         </li>
     </ul>
 </div>

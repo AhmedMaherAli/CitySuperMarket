@@ -10,11 +10,11 @@ namespace Core.Models.OrderAggregate
         {
         }
 
-        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, Address shipToAddress,DeliveryMethod deliveryMethod ,int deliveryMethodId,  decimal subtotal)
+        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, Address shipToAddress,decimal deliveryMethodPrice ,int deliveryMethodId,  decimal subtotal)
         {
             BuyerEmail = buyerEmail;
             ShipToAddress = shipToAddress;
-            DeliveryMethod = deliveryMethod;
+            DeliveryMethodPrice = deliveryMethodPrice;
             DeliveryMethodId = deliveryMethodId;
             OrderItems = orderItems;
             Subtotal = subtotal;
@@ -24,16 +24,16 @@ namespace Core.Models.OrderAggregate
         public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.Now;
         public Address ShipToAddress { get; set; }
         public int DeliveryMethodId { get; set; }
-        [NotMapped]
         public DeliveryMethod DeliveryMethod { get; set; }
         public IReadOnlyList<OrderItem> OrderItems { get; set; }
         public decimal Subtotal { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         public string PaymentIntentId { get; set; }
-
+        [NotMapped]
+        public decimal DeliveryMethodPrice { get; set; }
         public decimal GetTotal()
         {
-            return this.Subtotal + DeliveryMethod.Price;
+            return this.Subtotal + DeliveryMethodPrice;
         }
 
 

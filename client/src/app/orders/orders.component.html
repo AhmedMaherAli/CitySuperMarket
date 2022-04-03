@@ -1,0 +1,53 @@
+<div class="container mt-5"  style="margin-left: 25%;">
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover" style="cursor: pointer;">
+                <thead>
+                    <tr>
+                        <th scope="col bg-light">
+                            <div class="text-uppercase ">Order</div>
+                        </th>
+                        <th scope="col bg-light">
+                            <div class="text-uppercase align-middle text-center" style="margin-right: 26%;">Date</div>
+                        </th>
+                        <th scope="col bg-light">
+                            <div class="text-uppercase align-middle text-center ">Total</div>
+                        </th>
+                        <th scope="col bg-light">
+                            <div class="text-uppercase align-middle text-center ">Status</div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-uppercase align-middle text-center "></div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of (orders$|async);" routerLink="/orders/{{item.id}}">
+                        <th scope="row">
+                            <div class="d-flex justify-content-center align-items-center row p-2">
+                                <div class="col-12">
+                                    <h5 class="mb-0 d-flex align-items-center" style="margin-left: 6%;">
+                                        <a class="text-info">{{item.id}}</a>
+                                    </h5>
+                                </div>
+                            </div>
+                        </th>
+
+                        <td class="align-middle text-center ">
+                            <span class="text-muted font-weight-normal font-italic d-block">{{item.orderDate | date:"medium"}}</span>
+                        </td>
+
+                        <td class="align-middle text-center">
+                            <span class="text-muted font-weight-normal font-italic d-block">{{item.total}}EGP</span>
+                        </td>
+
+                        <td class="align-middle text-center">
+                            <span class="text-muted font-weight-normal font-italic d-block">{{item.status}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

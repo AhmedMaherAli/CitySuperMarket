@@ -9,8 +9,9 @@
             <div class="container " style="margin-left: 18%;">
 
                 <div class="row" style="margin-left: 10%;">
-                    <div class="col-12 py-5 mb-1">
-                        <app-basket-summary (increment)="increaseQuantity($event)"
+                    <div class="col-12 mb-1">
+                        <app-basket-summary [items]="basket.items"
+                                            (increment)="increaseQuantity($event)"
                                             (decrement)="decreaseQuantity($event)"
                                             (remove)="removeBasketItem($event)"></app-basket-summary>
                     </div>
@@ -19,7 +20,10 @@
                 
                 <div class="row justify-content-center">
                     <div class="col-8" style="margin-left: 15%;">
-                        <app-order-totals></app-order-totals>
+                        <app-order-totals *ngIf="(basketTotals$ | async)as basketTotals" 
+                                            [shippingCost]="basketTotals.shippingCost"
+                                            [subtotal]="basketTotals.subtotal"
+                                            [total]="basketTotals.total"></app-order-totals>
                         <div class="justify-content-center"></div>
                         <a style="width: 100%;" routerLink="/checkout" class="btn btn-outline-success py-2 btn-block"> Proceed to checkout</a>
                     </div>

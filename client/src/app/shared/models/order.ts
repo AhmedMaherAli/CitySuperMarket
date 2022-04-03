@@ -14,9 +14,10 @@ export interface IOrderItem {
     pictureUrl: string;
     price: number;
     quantity: number;
-}
+} 
 
 export interface IOrder {
+    id:number
     buyerEmail: string;
     orderDate: Date;
     shipToAddress: IAddress;

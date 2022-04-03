@@ -1,4 +1,4 @@
-<app-basket-summary [isBasket]="false"></app-basket-summary>
+<app-basket-summary *ngIf="(basket$|async) as basket" [items]="basket.items" [isBasket]="false"></app-basket-summary>
 
 <div class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5 mt-5">
     <button class="btn btn-outline-success" cdkStepperPrevious>

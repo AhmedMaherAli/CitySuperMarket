@@ -34,8 +34,7 @@ namespace Infrastructure.Services
             
             decimal subtotal = orderItems.Sum(item => item.Price*item.Quantity);
             DeliveryMethod deliveryMethod = await _unitOfWork.DeliveryMethod.GetByIdAsync(deliveryMethodId);
-            Order order = new Order(orderItems, buyerEmail, shippingAddress,deliveryMethod, deliveryMethodId, subtotal);
-            //order.DeliveryMethod = null;
+            Order order = new Order(orderItems, buyerEmail, shippingAddress,deliveryMethod.Price, deliveryMethodId, subtotal);
             await _unitOfWork.Orders.Insert(order);
             var result = await _unitOfWork.Save();
             if (result <= 0) return null;
