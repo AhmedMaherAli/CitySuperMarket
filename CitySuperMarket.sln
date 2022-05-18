@@ -9,27 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "InfraStructure\Infrastructure.csproj", "{E4412ADF-F9A8-429C-BF0F-4E27264FA5AE}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "client", "client\", "{18D4AC76-E907-4805-B76D-FCE7285C868F}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_64234"
-		Debug.AspNetCompiler.PhysicalPath = "client\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_64234\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_64234"
-		Release.AspNetCompiler.PhysicalPath = "client\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_64234\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "64234"
-		SlnRelativePath = "client\"
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -40,7 +40,7 @@
     <button class="btn btn-outline-success" routerLink="/basket">
         <i class="fa fa-angle-left"></i> Bask to bakset
     </button>
-    <button class="btn btn-success" cdkStepperNext >
+    <button class="btn btn-success" [disabled]="checkoutForm.get('addressForm')?.invalid" cdkStepperNext >
         Go to deliery <i class="fa fa-angle-right"></i> 
     </button>
 </div>

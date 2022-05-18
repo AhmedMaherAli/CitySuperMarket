@@ -1,73 +1,75 @@
-<header style="background-color:rgb(0, 51, 18);"
-  class=" d-flex flex-wrap align-items-center  justify-content-md-between py-3 border-bottom fixed-top">
-  <div class="row">
-    <div class="col-3">
-      
-      <img src="/assets/images/logo.png" routerLink="/" class="img-fluid"
-      style="max-height: 110px; max-width: 210px; margin-left: 50px;" alt="logo" />
-    </div>
-  
-    <div class="col-5">
-      <carousel class="d-flex align-items-center justify-content-center">
-        <slide>
-          <img src="assets/images/food.jpg" alt="first slide" style="display:block;width: 900px; height: 160px;">
-        </slide>
-    
-        <slide>
-          <img src="assets/images/home.png" alt="third slide" style="display:block;width: 900px; height: 160px;">
-        </slide>
-      </carousel>
-  
-    </div>
-  
-    <div class="col-3">
-      <nav class="mt-2 mt-md-0  text-uppercase " style="font-size: larger;">
-        <a class="p-2" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-        <a class="p-2" routerLink="/shop" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Shop</a>
-        <a class="p-2" routerLink="/locations" routerLinkActive="active"
-          [routerLinkActiveOptions]="{exact:true}">Locations</a>
-      </nav>
-  
-    </div>
-  
-    <div class="col-2">
-      <div class="d-flex align-items-center me-4">
-        <a routerLink="/basket" class="position-relative">
-          <i class="fa fa-shopping-cart fa-2x me-3 text-white"></i>
-          <div *ngIf="(basket$|async) && ((basket$|async)?.items!=null) " class="cart-no">{{((basket$|async)?.items==null)?0: (basket$|async)?.items?.length}}</div>
-        </a>
-    
-        <ng-container *ngIf="(currentUser$|async)===null">
-          <button routerLink="/account/login" type="button" class="btn btn-outline-success me-2">Login</button>
-          <button routerLink="/account/register" type="button" class="btn btn-success">Sign up</button>
-        </ng-container>
-    
-    
-        <ng-container *ngIf="(currentUser$|async) as currentUser">
-          <div class="dropdown" dropdown>
-            <a class="dropdown-toggle" style="cursor: pointer; color: #f5f5f5;" dropdownToggle>
-              <strong>Welcome {{currentUser.displayName}}</strong>
-            </a>
-    
-            <div class="dropdown-menu dropdown-menu-right" style="cursor:pointer;" *dropdownMenu>
-              <a routerLink="/basket" class="dropdown-item d-flex align-items-center py-2" style="color:#1a0d0d;">
-                <i class="fa fa-shopping-cart" style="margin-right: 8px;"></i>View Basket
-              </a>
-              <a routerLink="/orders" class="dropdown-item d-flex align-items-center py-2" style="color:#1a0d0d;">
-                &nbsp; <i class="fa fa-history mr-3" style="margin-right: 10px;"></i>View Orders
-              </a>
-              <div class="dropdown-divider"></div>
-              <a (click)="this.logoutUser()" class="dropdown-item d-flex align-items-center py-2"style="color:#1a0d0d;" >
-                <i class="fa fa-sign-out mr-3" style="color: red; margin-right: 10px;"></i> Logout
-              </a>
-            </div>
-    
-          </div>
-    
-        </ng-container>
+<div class="container">
+  <header style="background-color:rgb(0, 51, 18);"
+          class="  py-2 fixed-top">
+    <div class="row">
+      <div class="col-2 d-flex align-items-center justify-content-center">
+        <img src="/assets/images/logo.png" routerLink="/" class="img-fluid"
+        style="max-height: 110px; max-width: 150px;" alt="logo" />
       </div>
-  
+    
+      <div class="col-5 d-flex align-items-center justify-content-center">
+        <carousel>
+          <slide>
+            <img src="assets/images/food.jpg" alt="first slide" style="display:block;max-width: 900px; max-height: 140px;">
+          </slide>
+      
+          <slide>
+            <img src="assets/images/home.png" alt="third slide" style="display:block; max-width: 900px; max-height: 140px;">
+          </slide>
+        </carousel>
+    
+      </div>
+    
+      <div class="col-3 d-flex align-items-center justify-content-center">
+        <nav class="  text-uppercase " style="font-size: larger;">
+          <a class="p-2" [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+          <a class="p-2" routerLink="/shop" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Shop</a>
+          <a class="p-2" routerLink="/locations" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact:true}">Locations</a>
+        </nav>
+    
+      </div>
+    
+      <div class="col-2 d-flex align-items-center justify-content-center">
+        <div class="d-flex align-items-center">
+          <a routerLink="/basket" class="position-relative">
+            <i class="fa fa-shopping-cart fa-2x me-3 text-white"></i>
+            <div *ngIf="(basket$|async) && ((basket$|async)?.items!=null) " class="cart-no">{{((basket$|async)?.items==null)?0: (basket$|async)?.items?.length}}</div>
+          </a>
+      
+          <ng-container *ngIf="(currentUser$|async)===null">
+            <button routerLink="/account/login" type="button" class="btn btn-outline-success me-2">Login</button>
+            <button routerLink="/account/register" type="button" class="btn btn-success">Sign up</button>
+          </ng-container>
+      
+      
+          <ng-container *ngIf="(currentUser$|async) as currentUser">
+            <div class="dropdown" dropdown>
+              <a class="dropdown-toggle" style="cursor: pointer; color: #f5f5f5;" dropdownToggle>
+                <strong>Welcome {{currentUser.displayName}}</strong>
+              </a>
+      
+              <div class="dropdown-menu dropdown-menu-right" style="cursor:pointer;" *dropdownMenu>
+                <a routerLink="/basket" class="dropdown-item d-flex align-items-center py-2" style="color:#1a0d0d;">
+                  <i class="fa fa-shopping-cart" style="margin-right: 8px;"></i>View Basket
+                </a>
+                <a routerLink="/orders" class="dropdown-item d-flex align-items-center py-2" style="color:#1a0d0d;">
+                  &nbsp; <i class="fa fa-history mr-3" style="margin-right: 10px;"></i>View Orders
+                </a>
+                <div class="dropdown-divider"></div>
+                <a (click)="this.logoutUser()" class="dropdown-item d-flex align-items-center py-2"style="color:#1a0d0d;" >
+                  <i class="fa fa-sign-out mr-3" style="color: red; margin-right: 10px;"></i> Logout
+                </a>
+              </div>
+      
+            </div>
+      
+          </ng-container>
+        </div>
+    
+      </div>
+    
     </div>
-  
-  </div>
+    
   </header>
+</div>
